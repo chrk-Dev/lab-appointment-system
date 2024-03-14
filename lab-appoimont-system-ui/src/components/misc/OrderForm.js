@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Form, GridRow, GridColumn, Dropdown, Grid } from "semantic-ui-react";
+import React, { useEffect, useState,useContext } from "react";
+import { Form, GridRow, GridColumn, Dropdown, Grid,Message } from "semantic-ui-react";
 import { orderApi } from "./OrderApi";
+import {UserContext} from "../user/AppoimentPage"
 
 function OrderForm({
   appoimentDate,
@@ -29,6 +30,10 @@ function OrderForm({
     fetchData();
   }, []);
 
+  const date = useContext(UserContext);
+
+  console.log('date is: '+Date.parse(date["orderDate"]))
+
   return (
     <Form onSubmit={handleCreateOrder}>
       <Grid reversed="tablet vertically">
@@ -43,6 +48,8 @@ function OrderForm({
               type="datetime-local"
             />
           </GridColumn>
+          {(Date.parse(date["orderDate"])<Date.now()) && <Message negative>please select future date</Message>}
+          
         </GridRow>
         <GridRow>
           <GridColumn width={7}>
@@ -57,6 +64,7 @@ function OrderForm({
             />
           </GridColumn>
         </GridRow>
+        
       </Grid>
       <Form.Group></Form.Group>
     </Form>

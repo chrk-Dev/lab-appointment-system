@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,createContext } from 'react'
 import { Navigate } from 'react-router-dom'
 import { Container } from 'semantic-ui-react'
 import { useAuth } from '../context/AuthContext'
@@ -9,6 +9,7 @@ import { handleLogError } from '../misc/Helpers'
 function AdminPage() {
   const Auth = useAuth()
   const user = Auth.getUser()
+  
 
   const [users, setUsers] = useState([])
   const [orders, setOrders] = useState([])
@@ -34,6 +35,8 @@ function AdminPage() {
       setOrderTextSearch(value)
     }
   }
+
+  const UserContext = createContext();
 
   const handleGetUsers = async () => {
     setIsUsersLoading(true)

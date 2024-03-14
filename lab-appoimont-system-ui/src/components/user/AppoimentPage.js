@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,createContext } from "react";
 import { Navigate } from "react-router-dom";
 import { Container } from "semantic-ui-react";
 import OrderTable from "./OrderTable";
@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import { orderApi } from "../misc/OrderApi";
 import { handleLogError } from "../misc/Helpers";
 
+export const UserContext = createContext("");
 function AppoimentPage() {
   const Auth = useAuth();
   const user = Auth.getUser();
@@ -41,6 +42,9 @@ function AppoimentPage() {
       setDoctorname(value);
     }
   };
+  
+
+
 
   const handleCreateOrder = async () => {
     let trimmedDescription = doctorname;
@@ -77,6 +81,7 @@ function AppoimentPage() {
 
   return (
     <Container>
+      <UserContext.Provider value={{orderDate}}>
       <OrderTable
         orders={userMe && userMe.orders}
         isLoading={isLoading}
@@ -84,8 +89,10 @@ function AppoimentPage() {
         handleCreateOrder={handleCreateOrder}
         handleInputChange={handleInputChange}
       />
+      </UserContext.Provider>
     </Container>
   );
 }
 
 export default AppoimentPage;
+
